@@ -8,9 +8,9 @@ import static com.github.strangepleasures.match.Match.*;
 
 public static long factorial(int n) {
 	return Match.match(n,
-		Match.on(k -> k < 0, k -> { throw new IllegalArgumentException(); }),
-		Match.on(0, () -> 1L),
-		Match.on(1, () -> 1L),
+		on(k -> k < 0, k -> { throw new IllegalArgumentException(); }),
+		on(0, () -> 1L),
+		on(1, () -> 1L),
 		k -> k * factorial(k - 1)
 	);
 }
