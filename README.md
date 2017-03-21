@@ -1,8 +1,6 @@
-# Match me tender
+# Match me tender - pattern matching for Java
 
-## Pattern matching for Java
-
-
+### Simple c
 ```java
 import static com.github.strangepleasures.match.Match.*;
 
@@ -25,5 +23,25 @@ public double eval(Expr expr) {
 		(Div div) -> eval(div.left) / eval(div.right),
 		(unknown) -> { throw new UnsupportedOperationException(unknown.toString()); }
 	);
+}
+```
+
+### Akka example:
+```java
+import akka.actor.*;
+
+import static com.github.strangepleasures.match.Match.*;
+
+public class MatchingActor extends UntypedActor {
+    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+
+    public void onReceive(Object message) throws Exception {
+        match(message, 
+        	(Foo foo) -> log.info("received a Foo: " + foo),
+        	(Bar bar) -> log.info("received a Bar: " + bar),
+        	(Baz baz) -> log.info("received a Baz: " + baz),
+        	unknown -> unhandled(unknown)
+        );
+    }
 }
 ```
