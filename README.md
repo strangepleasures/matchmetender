@@ -14,14 +14,14 @@ public static long factorial(int n) {
 }
 
 public double eval(Expr expr) {
-return match(expr,
-	on(null, () -> { throw new IllegalArgumentException(); }),
-	(Const x) -> x.value,
-	(Add add) -> eval(add.left) + eval(add.right),
-	(Sub sub) -> eval(sub.left) - eval(sub.right),
-	(Mul mul) -> eval(mul.left) * eval(mul.right),
-	(Div div) -> eval(div.left) / eval(div.right),
-	(unknown) -> { throw new UnsupportedOperationException(unknown.toString()); }
+	return match(expr,
+		on(null, () -> { throw new IllegalArgumentException(); }),
+		(Const x) -> x.value,
+		(Add add) -> eval(add.left) + eval(add.right),
+		(Sub sub) -> eval(sub.left) - eval(sub.right),
+		(Mul mul) -> eval(mul.left) * eval(mul.right),
+		(Div div) -> eval(div.left) / eval(div.right),
+		(unknown) -> { throw new UnsupportedOperationException(unknown.toString()); }
 	);
 }
 ```
