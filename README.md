@@ -1,6 +1,6 @@
 # Match me tender - pattern matching for Java
 
-### Simple c
+### Example:
 ```java
 import static com.github.strangepleasures.match.Match.*;
 
