@@ -1,4 +1,4 @@
-# Match me tender - pattern matching for Java
+# Match me tender - idiomatic pattern matching for Java
 
 ### Example:
 ```java
@@ -14,14 +14,14 @@ public static long factorial(int n) {
 }
 
 public double eval(Expr expr) {
-	return match(expr,
-		on(null, () -> { throw new IllegalArgumentException(); }),
-		(Const x) -> x.value,
-		(Add add) -> eval(add.left) + eval(add.right),
-		(Sub sub) -> eval(sub.left) - eval(sub.right),
-		(Mul mul) -> eval(mul.left) * eval(mul.right),
-		(Div div) -> eval(div.left) / eval(div.right),
-		(unknown) -> { throw new UnsupportedOperationException(unknown.toString()); }
+return match(expr,
+	on(null, () -> { throw new IllegalArgumentException(); }),
+	(Const x) -> x.value,
+	(Add add) -> eval(add.left) + eval(add.right),
+	(Sub sub) -> eval(sub.left) - eval(sub.right),
+	(Mul mul) -> eval(mul.left) * eval(mul.right),
+	(Div div) -> eval(div.left) / eval(div.right),
+	(unknown) -> { throw new UnsupportedOperationException(unknown.toString()); }
 	);
 }
 ```
@@ -33,15 +33,15 @@ import akka.actor.*;
 import static com.github.strangepleasures.match.Match.*;
 
 public class MatchingActor extends UntypedActor {
-    LoggingAdapter log = Logging.getLogger(getContext().system(), this);
+	private final LoggingAdapter log = Logging.getLogger(getContext().system(), this);
 
-    public void onReceive(Object message) throws Exception {
-        match(message, 
-        	(Foo foo) -> log.info("received a Foo: " + foo),
-        	(Bar bar) -> log.info("received a Bar: " + bar),
-        	(Baz baz) -> log.info("received a Baz: " + baz),
-        	unknown -> unhandled(unknown)
-        );
-    }
+	public void onReceive(Object message) throws Exception {
+		match(message, 
+			(Foo foo) -> log.info("received a Foo: " + foo),
+			(Bar bar) -> log.info("received a Bar: " + bar),
+			(Baz baz) -> log.info("received a Baz: " + baz),
+			(unknown) -> unhandled(unknown)
+		);
+	}
 }
 ```
