@@ -45,3 +45,12 @@ public class MatchingActor extends UntypedActor {
 	}
 }
 ```
+
+### Maven dependency
+```xml
+<dependency>
+	<groupId>com.github.strangepleasures</groupId>
+	<artifactId>matchmetender</artifactId>
+	<version>1.0</version>
+</dependency>
+```
