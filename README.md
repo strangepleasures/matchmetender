@@ -70,6 +70,6 @@ public static void countFruits(List<Fruit> fruits) {
 		(Apple apple) -> apples.value++,
 		(Pear   pear) -> pears.value++
 	));
-	System.out.println("Found " + apples.value + " apples and " + pears.value + "pears.");
+	System.out.println("Found " + apples.value + " apples and " + pears.value + " pears.");
 }
 ```
