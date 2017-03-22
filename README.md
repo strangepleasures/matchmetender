@@ -66,7 +66,7 @@ A family of *com.github.strangepleasures.refs* classes allows you to modify loca
 public static void countFruits(List<Fruit> fruits) {
 	IntRef apples = new IntRef(0);  // Effectively final but mutable!
 	IntRef pears  = new IntRef(0);
-	fruits.each(fruit -> match(fruit,
+	fruits.forEach(fruit -> match(fruit,
 		(Apple apple) -> apples.value++,
 		(Pear   pear) -> pears.value++
 	));
