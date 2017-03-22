@@ -2,34 +2,36 @@ package com.github.strangepleasures.match;
 
 
 import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.function.*;
 
 
 public final class Match {
     private Match() {
     }
 
-    public static <T, R> R match(T value, MatchingFunction<? extends T, ? extends R>... actions) {
-        for (MatchingFunction action : actions) {
-            try {
-                if (action.matches(value)) {
-                    return (R) action.apply(value);
-                }
-            } catch (ClassCastException ignore) {
+    public static <T, R> R match(T value, MatchingFunction<? extends T, ? extends R>... functions) {
+        for (MatchingFunction function : functions) {
+            if (matches((T) value, function)) {
+                return (R) function.apply(value);
             }
         }
         return null;
     }
 
-    public static <T> void match(T value, MatchingConsumer<? extends T>... actions) {
-        for (MatchingConsumer action : actions) {
-            try {
-                if (action.matches(value)) {
-                    action.accept(value);
-                    return;
-                }
-            } catch (ClassCastException ignore) {
+    public static <T> void match(Object value, MatchingConsumer<? extends T>... consumers) {
+        for (MatchingConsumer consumer : consumers) {
+            if (matches(value, consumer)) {
+                consumer.accept(value);
+                return;
             }
+        }
+    }
+
+    private static <T> boolean matches(Object value, MatchingConsumer<?> consumer) {
+        try {
+            return consumer.matches(value);
+        } catch (ClassCastException ignore) {
+            return false;
         }
     }
 
@@ -86,6 +88,34 @@ public final class Match {
             @Override
             public R apply(T t) {
                 return supplier.get();
+            }
+        };
+    }
+
+    public static <T> MatchingConsumer<T> otherwise(Consumer<? super T> consumer) {
+        return new MatchingConsumer<T>() {
+            @Override
+            public boolean matches(Object value) {
+                return true;
+            }
+
+            @Override
+            public void accept(T value) {
+                consumer.accept(value);
+            }
+        };
+    }
+
+    public static <T, R> MatchingFunction<T, R> otherwise(Function<T, R> function) {
+        return new MatchingFunction<T, R>() {
+            @Override
+            public boolean matches(Object value) {
+                return true;
+            }
+
+            @Override
+            public R apply(T value) {
+                return function.apply(value);
             }
         };
     }
