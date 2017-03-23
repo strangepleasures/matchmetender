@@ -9,15 +9,19 @@ public final class Match {
     private Match() {
     }
 
+    @SafeVarargs
+    @SuppressWarnings("unchecked")
     public static <T, R> R match(T value, MatchingFunction<? extends T, ? extends R>... functions) {
         for (MatchingFunction function : functions) {
-            if (matches((T) value, function)) {
+            if (matches(value, function)) {
                 return (R) function.apply(value);
             }
         }
         return null;
     }
 
+    @SafeVarargs
+    @SuppressWarnings("unchecked")
     public static <T> void match(Object value, MatchingConsumer<? extends T>... consumers) {
         for (MatchingConsumer consumer : consumers) {
             if (matches(value, consumer)) {
@@ -35,7 +39,8 @@ public final class Match {
         }
     }
 
-    public static <T> MatchingConsumer<T> on(Predicate<T> filter, MatchingConsumer<? super T> action) {
+    @SuppressWarnings("unchecked")
+    public static <T> MatchingConsumer<T> on(Predicate<T> filter, MatchingConsumer<? super T> consumer) {
         return new MatchingConsumer<T>() {
             @Override
             public boolean matches(Object value) {
@@ -44,12 +49,13 @@ public final class Match {
 
             @Override
             public void accept(T value) {
-                action.accept(value);
+                consumer.accept(value);
             }
         };
     }
 
-    public static <T, R> MatchingFunction<T, R> on(Predicate<T> filter, MatchingFunction<? super T, R> mapper) {
+    @SuppressWarnings("unchecked")
+    public static <T, R> MatchingFunction<T, R> on(Predicate<T> filter, MatchingFunction<? super T, R> function) {
         return new MatchingFunction<T, R>() {
             @Override
             public boolean matches(Object value) {
@@ -58,7 +64,7 @@ public final class Match {
 
             @Override
             public R apply(T value) {
-                return mapper.apply(value);
+                return function.apply(value);
             }
         };
     }
@@ -76,7 +82,6 @@ public final class Match {
             }
         };
     }
-
 
     public static <T, R> MatchingFunction<T, R> on(T expected, RunnableSupplier<R> supplier) {
         return new MatchingFunction<T, R>() {
@@ -118,5 +123,9 @@ public final class Match {
                 return function.apply(value);
             }
         };
+    }
+
+    public static <T> T badArgument(Object arg) throws IllegalArgumentException {
+        throw new IllegalArgumentException(String.valueOf(arg));
     }
 }
