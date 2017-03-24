@@ -40,11 +40,11 @@ public final class Match {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> MatchingConsumer<T> on(Predicate<T> filter, MatchingConsumer<? super T> consumer) {
+    public static <T> MatchingConsumer<T> on(MatchingFunction<T, Boolean> filter, MatchingConsumer<? super T> consumer) {
         return new MatchingConsumer<T>() {
             @Override
             public boolean matches(Object value) {
-                return MatchingConsumer.super.matches(value) && filter.test((T) value);
+                return filter.matches(value) && filter.apply((T) value);
             }
 
             @Override
@@ -55,11 +55,11 @@ public final class Match {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T, R> MatchingFunction<T, R> on(Predicate<T> filter, MatchingFunction<? super T, R> function) {
+    public static <T, R> MatchingFunction<T, R> on(MatchingFunction<T, Boolean> filter, MatchingFunction<? super T, R> function) {
         return new MatchingFunction<T, R>() {
             @Override
             public boolean matches(Object value) {
-                return MatchingFunction.super.matches(value) && filter.test((T) value);
+                return filter.matches(value) && filter.apply((T) value);
             }
 
             @Override
