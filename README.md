@@ -44,8 +44,8 @@ String description = match(message,
 ```
 In addition to the simple class-based matching described above, it's also possible to perform value- or condition-based matching. A family of *on* methods allows to create *MatchingConsumer*s and *MatchingFunction*s checking additional conditions:
 ```java
-public static <T> MatchingConsumer<T> on(Predicate<T> filter, MatchingConsumer<? super T> action) { ... }
-public static <T, R> MatchingFunction<T, R> on(Predicate<T> filter, MatchingFunction<? super T, R> mapper) { ... }
+public static <T> MatchingConsumer<T> on(MatchingFunction<T, Boolean> filter, MatchingConsumer<? super T> action) { ... }
+public static <T, R> MatchingFunction<T, R> on(MatchingFunction<T, Boolean> filter, MatchingFunction<? super T, R> mapper) { ... }
 public static <T> MatchingConsumer<T> on(T expected, Runnable runnable) { ... }
 public static <T, R> MatchingFunction<T, R> on(T expected, RunnableSupplier<R> supplier) { ... }
 ```
