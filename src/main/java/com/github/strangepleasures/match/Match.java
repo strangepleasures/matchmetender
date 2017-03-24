@@ -2,7 +2,8 @@ package com.github.strangepleasures.match;
 
 
 import java.util.Objects;
-import java.util.function.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 
 public final class Match {
@@ -13,8 +14,11 @@ public final class Match {
     @SuppressWarnings("unchecked")
     public static <T, R> R match(T value, MatchingFunction<? extends T, ? extends R>... functions) {
         for (MatchingFunction function : functions) {
-            if (matches(value, function)) {
+            try {
+            if (function.matches(value)) {
                 return (R) function.apply(value);
+            }
+            } catch (ClassCastException ignore) {
             }
         }
         return null;
@@ -24,18 +28,13 @@ public final class Match {
     @SuppressWarnings("unchecked")
     public static <T> void match(Object value, MatchingConsumer<? extends T>... consumers) {
         for (MatchingConsumer consumer : consumers) {
-            if (matches(value, consumer)) {
-                consumer.accept(value);
-                return;
+            try {
+                if (consumer.matches(value)) {
+                    consumer.accept(value);
+                    return;
+                }
+            } catch (ClassCastException ignore) {
             }
-        }
-    }
-
-    private static <T> boolean matches(Object value, MatchingConsumer<?> consumer) {
-        try {
-            return consumer.matches(value);
-        } catch (ClassCastException ignore) {
-            return false;
         }
     }
 
