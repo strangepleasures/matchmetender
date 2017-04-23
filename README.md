@@ -6,7 +6,7 @@ To include Match Me Tender into your project add a Maven dependency
 <dependency>
 	<groupId>com.github.strangepleasures</groupId>
 	<artifactId>matchmetender</artifactId>
-	<version>1.0</version>
+	<version>1.1</version>
 </dependency>
 ```
 Most of the time the only class you need is *com.github.strangepleasures.match.Match*. Importing it with star import enables using it's methods as a DSL:
