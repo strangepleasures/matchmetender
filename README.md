@@ -1,5 +1,8 @@
 # Match me tender - a simple pattern matching DSL for Java
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.strangepleasures/matchmetender/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/com.github.strangepleasures/matchmetender)
+
+
 ### How to use
 To include Match Me Tender into your project add a Maven dependency
 ```xml
